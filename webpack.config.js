@@ -21,7 +21,22 @@ module.exports = [
       minimize: true,
       minimizer: [new TerserPlugin({ parallel: true })],
     },
-    externals: [/^(@mapbox\/mapbox-gl-draw).*$/],
+    // externals: [/^(@mapbox\/mapbox-gl-draw).*$/],
+    // externals: [
+    //   function ({ context, request }, callback) {
+    //     if (/^(@mapbox\/mapbox-gl-draw).*$/.test(request)) {
+    //       // Externalize to a commonjs module using the request path
+    //       return callback(null, {
+    //         root: "MapboxDraw",
+    //         commonjs: request,
+    //         commonjs2: request,
+    //       });
+    //     }
+
+    //     // Continue without externalizing the import
+    //     callback();
+    //   },
+    // ],
     module: {
       rules: [
         {

@@ -40,3 +40,7 @@ const draw = new MapboxDraw({
 
 draw.changeMode("draw_polygon");
 ```
+
+## acknowledgement
+
+this project is heavily inspired from [work](https://github.com/mapbox/mapbox-gl-draw/issues/865) of @davidgilbertson and [`leaflet-geoman` project](https://github.com/geoman-io/leaflet-geoman).

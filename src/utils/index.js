@@ -1,4 +1,4 @@
-// Heavily inspired from works of @davidgilbertson on Github and `leaflet-geoman` project.
+// Heavily inspired from work of @davidgilbertson on Github and `leaflet-geoman` project.
 
 import { geojsonTypes } from "@mapbox/mapbox-gl-draw/src/constants";
 // import {
@@ -284,7 +284,7 @@ export const snap = (state, e) => {
   }
 
   if (state.snapList.length <= 0) {
-    return false;
+    return { lng, lat };
   }
 
   // snapping is on
