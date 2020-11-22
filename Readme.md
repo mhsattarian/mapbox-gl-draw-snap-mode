@@ -11,7 +11,7 @@ npm i mapbox-gl-draw-snap-mode
 
 ## usage
 
-See a full example in the docs folder, or Check at the [**Demo**](https://mhsattarian.github.io/mapbox-gl-draw-snap-mode).
+See a full example in the docs folder, or check at the [**Demo**](https://mhsattarian.github.io/mapbox-gl-draw-snap-mode).
 
 ```js
 import {
@@ -35,7 +35,7 @@ const draw = new MapboxDraw({
   snap: true,
   snapOptions: {
     snapPx: 15, // defaults to 15
-    snapToMidPoints: true, // defaults to fals
+    snapToMidPoints: true, // defaults to false
   },
   guides: false,
 });
