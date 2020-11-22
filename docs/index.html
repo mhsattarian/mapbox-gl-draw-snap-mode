@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mapbox Gl Draw Snap Mode (Demo)</title>
+
+    <style>
+      @import 'https://unpkg.com/modern-normalize@1.0.0/modern-normalize.css';
+      @import url("https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css");
+      @import url("https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.css");
+
+      h1,
+      p {
+        font-family: Lato;
+      }
+
+      .map-wrapper {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        border-radius: inherit;
+      }
+
+      #map {
+        width: 100%;
+        height: 100%;
+      }
+
+      .snap_mode.point {
+        background-image: url("./snap_point.svg");
+      }
+      .snap_mode.line {
+        background-image: url("./snap_line.svg");
+      }
+      .snap_mode.polygon {
+        background-image: url("./snap_polygon.svg");
+      }
+
+      .mapboxgl-ctrl-group input[type="checkbox"] {
+        width: 29px;
+        height: 29px;
+        overflow: hidden;
+        display: block;
+        padding: 0;
+        outline: none;
+        border: 0;
+        box-sizing: border-box;
+        background-color: transparent;
+        cursor: pointer;
+        margin: 0;
+        border-bottom: 1px solid #ccc;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+
+      .mapboxgl-ctrl-group input[type="checkbox"]:last-of-type {
+        border-bottom: none;
+      }
+
+      .mapboxgl-ctrl-group input[type="checkbox"]:hover {
+        background-color: rgba(0, 0, 0, 0.05);
+      }
+
+      .mapboxgl-ctrl-group input[type="checkbox"]:checked {
+        background-color: rgba(0, 0, 0, 0.15);
+      }
+
+      .mapboxgl-ctrl-group input[type="checkbox"]:after {
+        content: "";
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 18px;
+        border-radius: 4px;
+        width: 100%;
+        height: 100%;
+        display: inline-block;
+      }
+
+      .mapboxgl-ctrl-group input[type="checkbox"].snap_mode.snap:after {
+        background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3C!-- Generator: Adobe Illustrator 23.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0) --%3E%3Csvg version='1.1' id='Icons' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 32 32' style='enable-background:new 0 0 32 32;' xml:space='preserve'%3E%3Cpath d='M26.5,10l-4.8-4.8c0,0,0,0,0,0s0,0,0,0l-3-3c-0.4-0.4-1-0.4-1.4,0l-4.6,4.6c-0.4,0.4-0.4,1,0,1.4l7.8,7.8 c1.3,1.3,1.3,3.3,0.1,4.5c-0.6,0.6-1.4,0.9-2.2,0.9c-0.8,0-1.7-0.4-2.3-1l-4.8-4.8c0,0,0,0,0,0s0,0,0,0l-3-3c-0.4-0.4-1-0.4-1.4,0 l-4.6,4.6c-0.4,0.4-0.4,1,0,1.4l7.8,7.8c2.3,2.3,5.2,3.5,8.4,3.6c0.1,0,0.1,0,0.2,0c3.1,0,5.9-1.2,8.1-3.3 C31.2,22.2,31.1,14.7,26.5,10z M18,4.4L19.6,6l-3.2,3.2l-1.6-1.6L18,4.4z M7.6,14.8l1.6,1.6L6,19.6L4.4,18L7.6,14.8z'/%3E%3C/svg%3E%0A");
+      }
+
+      .mapboxgl-ctrl-group input[type="checkbox"].snap_mode.grid:after {
+        background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='UTF-8' standalone='no'%3F%3E%3Csvg xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:cc='http://creativecommons.org/ns%23' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns%23' xmlns:svg='http://www.w3.org/2000/svg' xmlns='http://www.w3.org/2000/svg' xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape' width='16px' height='16px' viewBox='0 0 16 16' id='svg2' version='1.1' inkscape:version='1.0.1 (3bc2e813f5, 2020-09-07)' sodipodi:docname='grid.svg'%3E%3Cdefs id='defs4' /%3E%3Csodipodi:namedview id='base' pagecolor='%23ffffff' bordercolor='%23666666' borderopacity='1.0' inkscape:pageopacity='0.0' inkscape:pageshadow='2' inkscape:zoom='22.627417' inkscape:cx='16.97478' inkscape:cy='4.108315' inkscape:document-units='px' inkscape:current-layer='g6148-2' showgrid='true' units='px' inkscape:window-width='1920' inkscape:window-height='1021' inkscape:window-x='0' inkscape:window-y='0' inkscape:window-maximized='1' inkscape:snap-bbox='false' inkscape:bbox-paths='false' inkscape:bbox-nodes='false' inkscape:snap-bbox-edge-midpoints='true' inkscape:snap-bbox-midpoints='true' inkscape:document-rotation='0'%3E%3Cinkscape:grid type='xygrid' id='grid3336' /%3E%3C/sodipodi:namedview%3E%3Cg inkscape:label='Layer 1' inkscape:groupmode='layer' id='layer1' transform='translate(0,-1036.3622)'%3E%3Cg transform='translate(78,-251.00067)' id='g6148-2'%3E%3Cpath style='color:%23000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:%23000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;baseline-shift:baseline;text-anchor:start;white-space:normal;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:%23000000;solid-opacity:1;fill:%23000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate' d='m -76.5,1287.8629 v 1 h -1 v 1 h 1 v 3 h -1 v 1 h 1 v 3 h -1 v 1 h 1 v 3 h -1 v 1 h 1 v 1 h 1 v -1 h 3 v 1 h 1 v -1 h 3 v 1 h 1 v -1 h 3 v 1 h 1 v -1 h 1 v -1 h -1 v -3 h 1 v -1 h -1 v -3 h 1 v -1 h -1 v -3 h 1 v -1 h -1 v -1 h -1 v 1 h -3 v -1 h -1 v 1 h -3 v -1 h -1 v 1 h -3 v -1 z m 1,2 h 3 v 3 h -3 z m 4,0 h 3 v 3 h -3 z m 4,0 h 3 v 3 h -3 z m -8,4 h 3 v 3 h -3 z m 4,0 h 3 v 3 h -3 z m 4,0 h 3 v 3 h -3 z m -8,4 h 3 v 3 h -3 z m 4,0 h 3 v 3 h -3 z m 4,0 h 3 v 3 h -3 z' id='path7088-6-0' /%3E%3C/g%3E%3C/g%3E%3Cmetadata id='metadata8'%3E%3Crdf:RDF%3E%3Crdf:Description about='https://iconscout.com/legal%23licenses' dc:title='Grid, Line, Streamline, Layout, Outline' dc:description='Grid, Line, Streamline, Layout, Outline' dc:publisher='Iconscout' dc:date='2016-12-14' dc:format='image/svg+xml' dc:language='en'%3E%3Cdc:creator%3E%3Crdf:Bag%3E%3Crdf:li%3EMohit Gandhi%3C/rdf:li%3E%3C/rdf:Bag%3E%3C/dc:creator%3E%3C/rdf:Description%3E%3Ccc:Work rdf:about=''%3E%3Cdc:format%3Eimage/svg+xml%3C/dc:format%3E%3Cdc:type rdf:resource='http://purl.org/dc/dcmitype/StillImage' /%3E%3C/cc:Work%3E%3C/rdf:RDF%3E%3C/metadata%3E%3C/svg%3E%0A");
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+    <script src='https://unpkg.com/mapbox-gl-draw-snap-mode@0.1.3/dist/mapbox-gl-draw-snap-mode.js'></script>
+
+    <script type="text/babel" data-type="module">
+      import React, {
+        useRef,
+        useState,
+        useEffect,
+      } from "https://cdn.skypack.dev/react";
+      import ReactDOM from "https://cdn.skypack.dev/react-dom";
+
+
+      const {
+        SnapPolygonMode,
+        SnapPointMode,
+        SnapLineMode,
+        SnapModeDrawStyles,
+      } = mapboxGlDrawSnapMode;
+
+      class extendDrawBarCheckboxes {
+        constructor(opt) {
+          let ctrl = this;
+          ctrl.checkboxes = opt.checkboxes || [];
+          ctrl.onRemoveOrig = opt.draw.onRemove;
+        }
+        onAdd(map) {
+          let ctrl = this;
+          ctrl.map = map;
+          ctrl._container = document.createElement("div");
+          ctrl._container.className = "mapboxgl-ctrl-group mapboxgl-ctrl";
+          ctrl.elContainer = ctrl._container;
+          ctrl.checkboxes.forEach((b) => {
+            ctrl.addCheckbox(b);
+          });
+          return ctrl._container;
+        }
+        onRemove(map) {
+          ctrl.checkboxes.forEach((b) => {
+            ctrl.removeButton(b);
+          });
+          ctrl.onRemoveOrig(map);
+        }
+        addCheckbox(opt) {
+          let ctrl = this;
+          var elCheckbox = document.createElement("input");
+          elCheckbox.setAttribute("type", "checkbox");
+          elCheckbox.checked = opt.initialState === "checked";
+          elCheckbox.className = "mapbox-gl-draw_ctrl-draw-btn";
+          if (opt.classes instanceof Array) {
+            opt.classes.forEach((c) => {
+              elCheckbox.classList.add(c);
+            });
+          }
+          elCheckbox.addEventListener(opt.on, opt.action);
+          ctrl.elContainer.appendChild(elCheckbox);
+          opt.elCheckbox = elCheckbox;
+        }
+        removeButton(opt) {
+          opt.elCheckbox.removeEventListener(opt.on, opt.action);
+          opt.elCheckbox.remove();
+        }
+      }
+
+      export default function App() {
+        if (mapboxgl.getRTLTextPluginStatus() === "unavailable")
+          mapboxgl.setRTLTextPlugin(
+            "https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-rtl-text/v0.2.3/mapbox-gl-rtl-text.js",
+            (err) => {
+              err && console.error(err);
+            },
+            true
+          );
+        let mapRef = useRef(null);
+
+        useEffect(() => {
+          const map = new mapboxgl.Map({
+            container: mapRef.current || "",
+            style: `https://map.ir/vector/styles/main/mapir-xyz-light-style.json`,
+            center: [51.3857, 35.6102],
+            zoom: 10,
+            pitch: 0,
+            interactive: true,
+            hash: true,
+            attributionControl: true,
+            transformRequest: (url) => {
+              return {
+                url: url,
+                headers: {
+                  "x-api-key":
+                    "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImRiZWU0YWU4OTk4OTA3MmQ3OTFmMjQ4ZDE5N2VhZTgwZWU2NTUyYjhlYjczOWI2NDdlY2YyYzIzNWRiYThiMzIzOTM5MDkzZDM0NTY2MmU3In0.eyJhdWQiOiI5NDMyIiwianRpIjoiZGJlZTRhZTg5OTg5MDcyZDc5MWYyNDhkMTk3ZWFlODBlZTY1NTJiOGViNzM5YjY0N2VjZjJjMjM1ZGJhOGIzMjM5MzkwOTNkMzQ1NjYyZTciLCJpYXQiOjE1OTA4MjU0NzIsIm5iZiI6MTU5MDgyNTQ3MiwiZXhwIjoxNTkzNDE3NDcyLCJzdWIiOiIiLCJzY29wZXMiOlsiYmFzaWMiXX0.M_z4xJlJRuYrh8RFe9UrW89Y_XBzpPth4yk3hlT-goBm8o3x8DGCrSqgskFfmJTUD2wC2qSoVZzQKB67sm-swtD5fkxZO7C0lBCMAU92IYZwCdYehIOtZbP5L1Lfg3C6pxd0r7gQOdzcAZj9TStnKBQPK3jSvzkiHIQhb6I0sViOS_8JceSNs9ZlVelQ3gs77xM2ksWDM6vmqIndzsS-5hUd-9qdRDTLHnhdbS4_UBwNDza47Iqd5vZkBgmQ_oDZ7dVyBuMHiQFg28V6zhtsf3fijP0UhePCj4GM89g3tzYBOmuapVBobbX395FWpnNC3bYg7zDaVHcllSUYDjGc1A",
+                  "Mapir-SDK": "reactjs",
+                },
+              };
+            },
+          });
+
+          const draw = new MapboxDraw({
+            modes: {
+              ...MapboxDraw.modes,
+              draw_point: SnapPointMode,
+              draw_polygon: SnapPolygonMode,
+              draw_line_string: SnapLineMode,
+            },
+            styles: SnapModeDrawStyles,
+            userProperties: true,
+            snap: true,
+            // snapOptions: {
+            //   snapPx: 15,
+            //   snapToMidPoints: true,
+            // },
+            guides: false,
+          });
+
+          map.once("load", () => {
+            map.resize();
+
+            var SnapOptionsBar = new extendDrawBarCheckboxes({
+              draw: draw,
+              checkboxes: [
+                {
+                  on: "change",
+                  action: (e) => {
+                    draw.options.snap = e.target.checked;
+                  },
+                  classes: ["snap_mode", "snap"],
+                  title: "Snap when Draw",
+                  initialState: "checked",
+                },
+                {
+                  on: "change",
+                  action: (e) => {
+                    draw.options.guides = e.target.checked;
+                  },
+                  classes: ["snap_mode", "grid"],
+                  title: "Show Guides",
+                },
+              ],
+            });
+
+            map.addControl(draw, "top-right");
+            map.addControl(SnapOptionsBar, "top-right");
+
+            draw.set({
+              type: "FeatureCollection",
+              features: [
+                {
+                  type: "Feature",
+                  properties: {},
+                  id: "example-id",
+                  geometry: {
+                    type: "Polygon",
+                    coordinates: [
+                      [
+                        [51.41742415918904, 35.73019558439101],
+                        [51.31319413385742, 35.702773908694724],
+                        [51.378997493472525, 35.665562843119986],
+                        [51.45008537540798, 35.67776544979942],
+                        [51.46619566741822, 35.70822028156377],
+                        [51.41742415918904, 35.73019558439101],
+                      ],
+                    ],
+                  },
+                }
+              ],
+            });
+          });
+        }, []);
+
+        return (
+          <div className="map-wrapper">
+            <div id="map" ref={mapRef} />
+          </div>
+        );
+      }
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

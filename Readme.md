@@ -11,6 +11,8 @@ npm i mapbox-gl-draw-snap-mode
 
 ## usage
 
+See a full example in the docs folder, or Check at the [**Demo**](https://mhsattarian.github.io/mapbox-gl-draw-snap-mode).
+
 ```js
 import {
   SnapPolygonMode,
