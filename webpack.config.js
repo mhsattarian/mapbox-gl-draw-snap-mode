@@ -11,7 +11,7 @@ module.exports = [
     devtool: "source-map",
     output: {
       path: path.resolve(__dirname, "dist"),
-      filename: "mapbox-gl-draw-snap-mode.min.js",
+      filename: "mapbox-gl-draw-snap-mode.js",
       library: "mapboxGlDrawSnapMode",
       libraryTarget: "umd",
       globalObject: "this",
@@ -44,33 +44,4 @@ module.exports = [
       // }),
     ],
   },
-  // {
-  //   mode: "production",
-  //   entry: "./src/index.js",
-  //   devtool: "source-map",
-  //   output: {
-  //     path: path.resolve(__dirname, "dist"),
-  //     filename: "mapbox-gl-draw-snap-mode.min.js",
-  //     library: "mapbox-gl-draw-snap-mode",
-  //     libraryTarget: "umd",
-  //   },
-  //   optimization: {
-  //     minimize: true,
-  //     minimizer: [new TerserPlugin({ parallel: true })],
-  //   },
-  // },
-  // {
-  //   entry: "./src/docs.js",
-  //   devtool: "inline-source-map",
-  //   output: {
-  //     filename: "./index.js",
-  //     path: path.resolve(__dirname, "docs"),
-  //   },
-  //   resolve: {
-  //     fallback: {
-  //       path: require.resolve("path-browserify"),
-  //       fs: false,
-  //     },
-  //   },
-  // },
 ];

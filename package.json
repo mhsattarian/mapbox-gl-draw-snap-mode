@@ -2,7 +2,8 @@
   "name": "mapbox-gl-draw-snap-mode",
   "version": "0.1.1",
   "description": "Snapping mode for mapbox-gl-draw",
-  "main": "src/index.js",
+  "main": "dist/mapbox-gl-draw-snap-mode.js",
+  "module": "src/index.js",
   "scripts": {
     "build": "webpack",
     "start": "webpack serve --config ./webpack.development.js",
