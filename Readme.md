@@ -1,6 +1,6 @@
 # Mapbox-GL Draw Snap Mode
 
-Custom mode for `Mapbox GL Draw` that adds snapping ability while drawing features.
+Custom mode for [Mapbox GL Draw](https://github.com/mapbox/mapbox-gl-draw) that adds snapping ability while drawing features.
 It provides options to show guiding lines, control snapping sensibility, and whether to snap to midpoints on each segment.
 
 ## install

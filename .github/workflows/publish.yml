@@ -1,0 +1,31 @@
+name: Publish to npm registry
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        # with:
+        #   node-version: 10
+      - name: Install and Build 🔧
+        run: |
+          npm ci
+          npm run build
+      - name: Publish 🔧
+        uses: JS-DevTools/npm-publish@v1
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
+          check-version: true
+
+      - if: steps.publish.outputs.type != 'none'
+        run: |
+          echo "Version changed: ${{ steps.publish.outputs.old-version }} => ${{ steps.publish.outputs.version }}"
+      - if: steps.publish.outputs.type == 'none'
+        run: |
+          echo "Version is not changed. publishing cancels."
