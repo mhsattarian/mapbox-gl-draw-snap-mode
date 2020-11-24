@@ -9,6 +9,7 @@
       @import 'https://unpkg.com/modern-normalize@1.0.0/modern-normalize.css';
       @import url("https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css");
       @import url("https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.0/mapbox-gl-draw.css");
+      @import url("https://unpkg.com/nprogress@0.2.0/nprogress.css");
 
       h1,
       p {
@@ -96,6 +97,12 @@
     <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
     <script src='https://unpkg.com/mapbox-gl-draw-snap-mode'></script>
 
+    <script type="module">
+      import nprogress from "https://cdn.skypack.dev/nprogress";
+      window.nprogress = nprogress;
+      nprogress.start();
+    </script>
+
     <script type="text/babel" data-type="module">
       import React, {
         useRef,
@@ -139,6 +146,7 @@
           let ctrl = this;
           var elCheckbox = document.createElement("input");
           elCheckbox.setAttribute("type", "checkbox");
+          elCheckbox.setAttribute("title", opt.title);
           elCheckbox.checked = opt.initialState === "checked";
           elCheckbox.className = "mapbox-gl-draw_ctrl-draw-btn";
           if (opt.classes instanceof Array) {
@@ -207,6 +215,7 @@
           });
 
           map.once("load", () => {
+            nprogress.done();
             map.resize();
 
             var SnapOptionsBar = new extendDrawBarCheckboxes({
