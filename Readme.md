@@ -26,7 +26,7 @@ import {
   SnapPointMode,
   SnapLineMode,
   SnapModeDrawStyles,
-} from "mapbox-gl-draw-snap-mode.js";
+} from "mapbox-gl-draw-snap-mode";
 
 const draw = new MapboxDraw({
   modes: {
