@@ -3,6 +3,13 @@
 Custom mode for [Mapbox GL Draw](https://github.com/mapbox/mapbox-gl-draw) that adds snapping ability while drawing features.
 It provides options to show guiding lines, control snapping sensibility, and whether to snap to midpoints on each segment.
 
+## Demo
+
+See a full example in the docs folder, or check at the [**Demo**](https://mhsattarian.github.io/mapbox-gl-draw-snap-mode).
+
+![a GIF showing usage demo](docs/demo.gif)
+
+
 ## install
 
 ```shell
@@ -10,8 +17,6 @@ npm i mapbox-gl-draw-snap-mode
 ```
 
 ## usage
-
-See a full example in the docs folder, or check at the [**Demo**](https://mhsattarian.github.io/mapbox-gl-draw-snap-mode).
 
 ```js
 import {
