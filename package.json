@@ -30,6 +30,10 @@
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/mhsattarian/mapbox-gl-draw-snap-mode.git"
+  },
   "keywords": [
     "mapbox",
     "mapbox-gl",
