@@ -18,6 +18,12 @@ See a full example in the docs folder, or check at the [**Demo**](https://mhsatt
 npm i mapbox-gl-draw-snap-mode
 ```
 
+or use CDN:
+
+```html
+<script src='https://unpkg.com/mapbox-gl-draw-snap-mode'></script>
+```
+
 ## Usage
 
 ```js
@@ -27,6 +33,7 @@ import {
   SnapLineMode,
   SnapModeDrawStyles,
 } from "mapbox-gl-draw-snap-mode";
+// or global variable mapboxGlDrawSnapMode when using script tag
 
 const draw = new MapboxDraw({
   modes: {
