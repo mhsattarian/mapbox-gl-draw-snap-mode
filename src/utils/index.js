@@ -165,12 +165,12 @@ const calcLayerDistances = (lngLat, layer) => {
   const nearestPoint = nearestPointOnLine(lines, P);
   const [lng, lat] = nearestPoint.geometry.coordinates;
 
+  let segmentIndex = nearestPoint.properties.index;
+  if (segmentIndex + 1 === lines.geometry.coordinates.length) segmentIndex--;
+
   return {
     latlng: { lng, lat },
-    segment: lines.geometry.coordinates.slice(
-      nearestPoint.properties.index,
-      nearestPoint.properties.index + 2
-    ),
+    segment: lines.geometry.coordinates.slice(segmentIndex, segmentIndex + 2),
     distance: nearestPoint.properties.dist,
     isMarker,
   };
