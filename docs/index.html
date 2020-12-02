@@ -29,16 +29,6 @@
         height: 100%;
       }
 
-      .snap_mode.point {
-        background-image: url("./snap_point.svg");
-      }
-      .snap_mode.line {
-        background-image: url("./snap_line.svg");
-      }
-      .snap_mode.polygon {
-        background-image: url("./snap_polygon.svg");
-      }
-
       .mapboxgl-ctrl-group input[type="checkbox"] {
         width: 29px;
         height: 29px;
@@ -143,7 +133,7 @@
         }
         addCheckbox(opt) {
           let ctrl = this;
-          var elCheckbox = document.createElement("input");
+          const elCheckbox = document.createElement("input");
           elCheckbox.setAttribute("type", "checkbox");
           elCheckbox.setAttribute("title", opt.title);
           elCheckbox.checked = opt.initialState === "checked";
@@ -217,7 +207,7 @@
             nprogress.done();
             map.resize();
 
-            var SnapOptionsBar = new extendDrawBarCheckboxes({
+            const SnapOptionsBar = new extendDrawBarCheckboxes({
               draw: draw,
               checkboxes: [
                 {
