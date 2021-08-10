@@ -57,6 +57,18 @@ const draw = new MapboxDraw({
 draw.changeMode("draw_polygon");
 ```
 
+Changing settings would take effect while snapping imidiately, so you can control snapping behaivior using `draw.options.snap`, like so:
+
+```js
+// turn snapping off
+draw.options.snap = false;
+
+// and back on
+draw.options.snap = true;
+```
+
+> You can also create a [custom mapbox-gl draw toolbar](https://github.com/mapbox/mapbox-gl-draw/issues/874#issuecomment-470591089) to control this, take a look at the [example in the `docs` directory](/docs/index.html#L111).
+
 ## Acknowledgement
 
 this project is heavily inspired from [work](https://github.com/mapbox/mapbox-gl-draw/issues/865) of @davidgilbertson and [`leaflet-geoman` project](https://github.com/geoman-io/leaflet-geoman).
