@@ -1,6 +1,6 @@
 # Mapbox-GL Draw Snap Mode
 
-![npm](https://img.shields.io/npm/v/mapbox-gl-draw-snap-mode?color=green)
+[![npm](https://img.shields.io/npm/v/mapbox-gl-draw-snap-mode?color=green)](https://www.npmjs.com/package/mapbox-gl-draw-snap-mode)
 
 Custom mode for [Mapbox GL Draw](https://github.com/mapbox/mapbox-gl-draw) that adds snapping ability while drawing features.
 It provides options to show guiding lines, control snapping sensibility, and whether to snap to midpoints on each segment.
@@ -49,6 +49,7 @@ const draw = new MapboxDraw({
   snapOptions: {
     snapPx: 15, // defaults to 15
     snapToMidPoints: true, // defaults to false
+    snapVertexPriorityDistance: 0.0025, // defaults to 1.25
   },
   guides: false,
 });
