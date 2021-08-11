@@ -1,3 +1,11 @@
+/**
+ * note:
+ * Webpack dev Server had a problem with `umd` builds,
+ * so v4 beta is used to fix that.
+ *
+ * it also possible to use the `3.11.0` version as well with `hot` and `injectClient` set to `false`.
+ */
+
 const path = require("path");
 
 module.exports = [
@@ -30,6 +38,6 @@ module.exports = [
           },
         },
       ],
-    }
+    },
   },
 ];

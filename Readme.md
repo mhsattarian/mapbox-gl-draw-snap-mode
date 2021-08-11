@@ -11,7 +11,6 @@ See a full example in the docs folder, or check at the [**Demo**](https://mhsatt
 
 ![a GIF showing usage demo](docs/demo.gif)
 
-
 ## Install
 
 ```shell
@@ -21,7 +20,7 @@ npm i mapbox-gl-draw-snap-mode
 or use CDN:
 
 ```html
-<script src='https://unpkg.com/mapbox-gl-draw-snap-mode'></script>
+<script src="https://unpkg.com/mapbox-gl-draw-snap-mode"></script>
 ```
 
 ## Usage
@@ -70,6 +69,26 @@ draw.options.snap = true;
 > Snapping can also be disabled holding `Alt (Option)` key.
 
 You can also create a [custom mapbox-gl draw toolbar](https://github.com/mapbox/mapbox-gl-draw/issues/874#issuecomment-470591089) to control this, take a look at the [example in the `docs` directory](/docs/index.html#L111).
+
+### Developing and testing
+
+Install dependencies, start the dev server:
+
+```bash
+npm install
+npm start
+```
+
+### Publishing
+
+To GitHub and NPM:
+
+```
+npm version (major|minor|patch)
+git push --tags
+git push
+npm publish
+```
 
 ## Acknowledgement
 
