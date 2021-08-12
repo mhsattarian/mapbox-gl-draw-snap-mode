@@ -93,4 +93,4 @@ npm publish
 
 ## Acknowledgement
 
-This project is heavily inspired from [the work](https://github.com/mapbox/mapbox-gl-draw/issues/865) of [@davidgilbertson](https://github.com/davidgilbertson) and [`leaflet-geoman` project](https://github.com/geoman-io/leaflet-geoman).
+This project is heavily inspired by [this work](https://github.com/mapbox/mapbox-gl-draw/issues/865) of [@davidgilbertson](https://github.com/davidgilbertson) and [`leaflet-geoman` project](https://github.com/geoman-io/leaflet-geoman).
