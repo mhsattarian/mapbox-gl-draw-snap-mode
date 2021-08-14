@@ -69,7 +69,7 @@ Controls whether to snap to line/segments midpoints (an imaginary point in the m
 
 #### `snapVertexPriorityDistance`
 
-The min distance from each vertex, where snapping to that vertex would take priority over snapping to line/segments.
+The min distance (in Kilometers) from each vertex, where snapping to that vertex would take priority over snapping to line/segments.
 
 ### Changing settings
 
