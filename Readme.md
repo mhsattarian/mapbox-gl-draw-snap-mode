@@ -57,6 +57,22 @@ const draw = new MapboxDraw({
 draw.changeMode("draw_polygon");
 ```
 
+### options
+
+#### `snapPx`
+
+The min distnace (in pixels) where snapping to the line/segments would take effect.
+
+#### `snapToMidPoints`
+
+Controls whether to snap to line/segments midpoints (an imaginary point in the middle of each segment) or not.
+
+#### `snapVertexPriorityDistance`
+
+The min distance from each vertex, where snapping to that vertex would take priority over snapping to line/segments.
+
+### Changing settings
+
 Changing settings would take effect while snapping imidiately, so you can control snapping behaivior using `draw.options.snap`, like so:
 
 ```js
@@ -71,7 +87,7 @@ draw.options.snap = true;
 
 You can also create a [custom mapbox-gl draw toolbar](https://github.com/mapbox/mapbox-gl-draw/issues/874#issuecomment-470591089) to control this, take a look at the [example in the `docs` directory](/docs/index.html#L111).
 
-### Developing and testing
+## Developing and testing
 
 Install dependencies, start the dev server:
 
@@ -80,7 +96,7 @@ npm install
 npm start
 ```
 
-### Publishing
+## Publishing
 
 To GitHub and NPM:
 
