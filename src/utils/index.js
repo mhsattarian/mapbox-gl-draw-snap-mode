@@ -298,12 +298,13 @@ export const snap = (state, e) => {
     }
 
     const isMarker = closestLayer.isMarker;
+    const snapVertexPriorityDistance = state.options.snapOptions ? state.options.snapOptions.snapVertexPriorityDistance : undefined;
 
     if (!isMarker) {
       snapLatLng = checkPrioritiySnapping(
         closestLayer,
         state.options.snapOptions,
-        state.options.snapOptions.snapVertexPriorityDistance
+        snapVertexPriorityDistance
       );
       // snapLatLng = closestLayer.latlng;
     } else {
