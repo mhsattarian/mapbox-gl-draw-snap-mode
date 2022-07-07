@@ -210,8 +210,7 @@ const metersPerPixel = function (latitude, zoomLevel) {
 };
 
 // we got the point we want to snap to (C), but we need to check if a coord of the polygon
-// receives priority over C as the snapping point. Let's check this here
-const checkPrioritiySnapping = (closestLayer, snapOptions, snapVertexPriorityDistance = 1.25) => {
+function snapToLineOrPolygon(closestLayer, snapOptions, snapVertexPriorityDistance) {
   // A and B are the points of the closest segment to P (the marker position we want to snap)
   const A = closestLayer.segment[0];
   const B = closestLayer.segment[1];
@@ -258,7 +257,21 @@ const checkPrioritiySnapping = (closestLayer, snapOptions, snapVertexPriorityDis
 
   // return the copy of snapping point
   const [lng, lat] = snapLatlng;
-  return { lng, lat };
+  return {lng, lat};
+}
+
+
+function snapToPoint(closestLayer) {
+  return closestLayer.latlng;
+}
+
+const checkPrioritiySnapping = (closestLayer, snapOptions, snapVertexPriorityDistance = 1.25) => {
+  let snappingToPoint = !Array.isArray(closestLayer.segment);
+  if (snappingToPoint) {
+    return snapToPoint(closestLayer);
+  } else {
+    return snapToLineOrPolygon(closestLayer, snapOptions, snapVertexPriorityDistance);
+  }
 };
 
 /**
