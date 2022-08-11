@@ -96,6 +96,18 @@ npm install
 npm start
 ```
 
+to preview, change script source in `docs/index.html` file as so:
+
+```diff
+- <script src="https://unpkg.com/mapbox-gl-draw-snap-mode"></script>
++ <!-- <script src="https://unpkg.com/mapbox-gl-draw-snap-mode"></script> -->
+
+- <!-- <script src="index.js"></script> -->
++ <script src="index.js"></script>
+```
+
+> Remember to revert this change before `git push`.
+
 ## Publishing
 
 To GitHub and NPM:
