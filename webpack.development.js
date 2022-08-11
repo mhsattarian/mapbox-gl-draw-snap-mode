@@ -8,6 +8,8 @@
 
 const path = require("path");
 
+const ReplaceInFileWebpackPlugin = require("replace-in-file-webpack-plugin");
+
 module.exports = [
   {
     mode: "development",
@@ -25,6 +27,20 @@ module.exports = [
       libraryTarget: "umd",
       globalObject: "this",
     },
+    plugins: [
+      new ReplaceInFileWebpackPlugin([
+        {
+          dir: "docs",
+          files: ["index.html"],
+          rules: [
+            {
+              search: "https://unpkg.com/mapbox-gl-draw-snap-mode",
+              replace: "/index.js",
+            },
+          ],
+        },
+      ]),
+    ],
     module: {
       rules: [
         {
