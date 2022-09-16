@@ -18,6 +18,8 @@ import distance from "@turf/distance";
 import polygonToLine from "@turf/polygon-to-line";
 import nearestPointOnLine from "@turf/nearest-point-on-line";
 import midpoint from "@turf/midpoint";
+import { lineString as turfLineString } from "@turf/helpers";
+
 
 export const IDS = {
   VERTICAL_GUIDE: "VERTICAL_GUIDE",
@@ -144,6 +146,8 @@ const calcLayerDistances = (lngLat, layer) => {
   const isMarker = layer.geometry.type === "Point";
   // is it a polygon?
   const isPolygon = layer.geometry.type === "Polygon";
+  // is it a multiPolygon?
+  const isMultiPolygon = layer.geometry.type === "MultiPolygon";
 
   let lines = undefined;
 
@@ -159,10 +163,49 @@ const calcLayerDistances = (lngLat, layer) => {
     };
   }
 
-  if (isPolygon) lines = polygonToLine(layer);
-  else lines = layer;
+  if (isPolygon || isMultiPolygon) {
+    lines = polygonToLine(layer);
+  } else {
+    lines = layer;
+  }
 
-  const nearestPoint = nearestPointOnLine(lines, P);
+  let nearestPoint;
+  if (isPolygon) {
+
+    let lineStrings;
+    if (lines.geometry.type === "LineString") {
+      lineStrings = [turfLineString(lines.geometry.coordinates)];
+    } else {
+      lineStrings = lines.geometry.coordinates.map((coords) =>
+        turfLineString(coords),
+      );
+    }
+
+    const closestFeature = getFeatureWithNearestPoint(lineStrings, P);
+    lines = closestFeature.feature;
+    nearestPoint = closestFeature.point;
+
+  } else if (isMultiPolygon) {
+
+    const lineStrings = lines.features
+      .map((feat) => {
+        if (feat.geometry.type === "LineString") {
+          return [feat.geometry.coordinates];
+        } else {
+          return feat.geometry.coordinates;
+        }
+      })
+      .flatMap((coords) => coords)
+      .map((coords) => turfLineString(coords));
+
+    const closestFeature = getFeatureWithNearestPoint(lineStrings, P);
+    lines = closestFeature.feature;
+    nearestPoint = closestFeature.point;
+
+  } else {
+    nearestPoint = nearestPointOnLine(lines, P);
+  }
+
   const [lng, lat] = nearestPoint.geometry.coordinates;
 
   let segmentIndex = nearestPoint.properties.index;
@@ -175,6 +218,22 @@ const calcLayerDistances = (lngLat, layer) => {
     isMarker,
   };
 };
+
+function getFeatureWithNearestPoint(lineStrings, P) {
+  const nearestPointsOfEachFeature = lineStrings.map((feat) => ({
+    feature: feat,
+    point: nearestPointOnLine(feat, P),
+  }));
+
+  nearestPointsOfEachFeature.sort(
+    (a, b) => a.point.properties.dist - b.point.properties.dist,
+  );
+
+  return {
+    feature: nearestPointsOfEachFeature[0].feature,
+    point: nearestPointsOfEachFeature[0].point,
+  };
+}
 
 const calcClosestLayer = (lngLat, layers) => {
   let closestLayer = {};
