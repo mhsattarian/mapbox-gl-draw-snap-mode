@@ -17,8 +17,9 @@ import { getCoords } from "@turf/invariant";
 import distance from "@turf/distance";
 import polygonToLine from "@turf/polygon-to-line";
 import nearestPointOnLine from "@turf/nearest-point-on-line";
+import nearestPointInPointSet from "@turf/nearest-point";
 import midpoint from "@turf/midpoint";
-import { lineString as turfLineString } from "@turf/helpers";
+import { featureCollection, lineString as turfLineString, point as turfPoint } from "@turf/helpers";
 
 
 export const IDS = {
@@ -148,6 +149,8 @@ const calcLayerDistances = (lngLat, layer) => {
   const isPolygon = layer.geometry.type === "Polygon";
   // is it a multiPolygon?
   const isMultiPolygon = layer.geometry.type === "MultiPolygon";
+  // is it a multiPoint?
+  const isMultiPoint = layer.geometry.type === "MultiPoint";
 
   let lines = undefined;
 
@@ -160,6 +163,17 @@ const calcLayerDistances = (lngLat, layer) => {
     return {
       latlng: { lng, lat },
       distance: distance(latlngs, P),
+    };
+  }
+
+  if (isMultiPoint) {
+    const np = nearestPointInPointSet(P, featureCollection(
+      latlngs.map(x => turfPoint(x))
+    ));
+    const c = np.geometry.coordinates
+    return {
+      latlng: { lng: c[0], lat: c[1] },
+      distance: np.properties.distanceToPoint,
     };
   }
 
