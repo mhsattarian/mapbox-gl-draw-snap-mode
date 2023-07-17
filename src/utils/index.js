@@ -1,15 +1,7 @@
 // Heavily inspired from work of @davidgilbertson on Github and `leaflet-geoman` project.
+import MapboxDraw from "@mapbox/mapbox-gl-draw";
 
-import { geojsonTypes } from "@mapbox/mapbox-gl-draw/src/constants";
-// import {
-//   bboxPolygon,
-//   booleanDisjoint,
-//   getCoords,
-//   distance,
-//   polygonToLine,
-//   nearestPointOnLine,
-//   midpoint,
-// } from "@turf/turf";
+const { geojsonTypes } = MapboxDraw.constants;
 
 import bboxPolygon from "@turf/bbox-polygon";
 import booleanDisjoint from "@turf/boolean-disjoint";
