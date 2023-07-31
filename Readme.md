@@ -73,7 +73,7 @@ The min distance (in Kilometers) from each vertex, where snapping to that vertex
 
 #### `overlap`
 
-Defaults to `true`. When creating polygons, if `false`, will use `turf.overlap` on all overlapping polygons to create a polygon that does not overlap existing ones.
+Defaults to `true`. When creating polygons, if `false`, will use `turf.difference` on all overlapping polygons to create a polygon that does not overlap existing ones.
 
 ### Changing settings
 
@@ -104,9 +104,6 @@ to preview, change `docs/index.html` as so:
 
 ```diff
 - <script src="https://unpkg.com/mapbox-gl-draw-snap-mode"></script>
-+ <!-- <script src="https://unpkg.com/mapbox-gl-draw-snap-mode"></script> -->
-
-- <!-- <script src="index.js"></script> -->
 + <script src="index.js"></script>
 ```
 
