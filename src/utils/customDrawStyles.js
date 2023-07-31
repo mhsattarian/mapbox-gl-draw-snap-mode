@@ -1,4 +1,5 @@
-import theme from '@mapbox/mapbox-gl-draw/src/lib/theme';
+import MapboxDraw from "@mapbox/mapbox-gl-draw";
+const theme = MapboxDraw.lib.theme;
 
 const modifiedDefaultStyles = theme.map(defaultStyle => {
   if (defaultStyle.id === 'gl-draw-line-inactive') {

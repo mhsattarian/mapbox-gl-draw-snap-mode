@@ -71,6 +71,10 @@ Controls whether to snap to line/segments midpoints (an imaginary point in the m
 
 The min distance (in Kilometers) from each vertex, where snapping to that vertex would take priority over snapping to line/segments.
 
+#### `overlap`
+
+Defaults to `true`. When creating polygons, if `false`, will use `turf.difference` on all overlapping polygons to create a polygon that does not overlap existing ones.
+
 ### Changing settings
 
 Changing settings would take effect while snapping imidiately, so you can control snapping behaivior using `draw.options.snap`, like so:
@@ -100,9 +104,6 @@ to preview, change `docs/index.html` as so:
 
 ```diff
 - <script src="https://unpkg.com/mapbox-gl-draw-snap-mode"></script>
-+ <!-- <script src="https://unpkg.com/mapbox-gl-draw-snap-mode"></script> -->
-
-- <!-- <script src="index.js"></script> -->
 + <script src="index.js"></script>
 ```
 

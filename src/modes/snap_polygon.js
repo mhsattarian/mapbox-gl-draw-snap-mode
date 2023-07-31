@@ -1,10 +1,8 @@
-import {
-  geojsonTypes,
-  modes,
-  cursors,
-} from "@mapbox/mapbox-gl-draw/src/constants";
-import doubleClickZoom from "@mapbox/mapbox-gl-draw/src/lib/double_click_zoom";
-import DrawPolygon from "@mapbox/mapbox-gl-draw/src/modes/draw_polygon";
+import MapboxDraw from "@mapbox/mapbox-gl-draw";
+const { geojsonTypes, modes, cursors } = MapboxDraw.constants;
+const { doubleClickZoom } = MapboxDraw.lib;
+const DrawPolygon = MapboxDraw.modes.draw_polygon;
+
 import {
   addPointTovertices,
   createSnapList,
@@ -13,6 +11,7 @@ import {
   shouldHideGuide,
   snap,
 } from "./../utils";
+import booleanIntersects from "@turf/boolean-intersects";
 
 const SnapPolygonMode = { ...DrawPolygon };
 
@@ -150,8 +149,37 @@ SnapPolygonMode.onStop = function (state) {
   this.map.off("moveend", state.moveendCallback);
   this.map.off("draw.snap.options_changed", state.optionsChangedCallBAck);
 
+  var userPolygon = state.polygon;
+  if (state.options.overlap) {
+    DrawPolygon.onStop.call(this, state);
+    return;
+  }
+  // if overlap is false, mutate polygon so it doesnt overlap with existing ones
+  // get all editable features to check for intersections
+  var features = this._ctx.store.getAll();
+
+  try {
+    var edited = userPolygon;
+    features.forEach(function (feature) {
+      if (userPolygon.id === feature.id) return false;
+      if (!booleanIntersects(feature, edited)) return;
+      edited = turf.difference(edited, feature);
+    });
+    state.polygon.coordinates =
+      edited.coordinates || edited.geometry.coordinates;
+  } catch (err) {
+    // cancel this polygon if a difference cannot be calculated
+    DrawPolygon.onStop.call(this, state);
+    this.deleteFeature([state.polygon.id], { silent: true });
+    return;
+  }
+
+  // monkeypatch so DrawPolygon.onStop doesn't error
+  var rc = state.polygon.removeCoordinate;
+  state.polygon.removeCoordinate = () => {};
   // This relies on the the state of SnapPolygonMode being similar to DrawPolygon
   DrawPolygon.onStop.call(this, state);
+  state.polygon.removeCoordinate = rc.bind(state.polygon);
 };
 
 export default SnapPolygonMode;

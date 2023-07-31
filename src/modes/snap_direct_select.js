@@ -1,8 +1,8 @@
-import * as Constants from "@mapbox/mapbox-gl-draw/src/constants";
-import doubleClickZoom from "@mapbox/mapbox-gl-draw/src/lib/double_click_zoom";
-import DirectSelect from "@mapbox/mapbox-gl-draw/src/modes/direct_select";
+import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import { createSnapList, getGuideFeature, IDS, snap } from "./../utils";
-
+const { doubleClickZoom } = MapboxDraw.lib;
+const DirectSelect = MapboxDraw.modes.direct_select;
+const Constants = MapboxDraw.constants;
 const SnapDirectSelect = { ...DirectSelect };
 
 SnapDirectSelect.onSetup = function (opts) {
