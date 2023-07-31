@@ -11,8 +11,11 @@ import polygonToLine from "@turf/polygon-to-line";
 import nearestPointOnLine from "@turf/nearest-point-on-line";
 import nearestPointInPointSet from "@turf/nearest-point";
 import midpoint from "@turf/midpoint";
-import { featureCollection, lineString as turfLineString, point as turfPoint } from "@turf/helpers";
-
+import {
+  featureCollection,
+  lineString as turfLineString,
+  point as turfPoint,
+} from "@turf/helpers";
 
 export const IDS = {
   VERTICAL_GUIDE: "VERTICAL_GUIDE",
@@ -159,10 +162,11 @@ const calcLayerDistances = (lngLat, layer) => {
   }
 
   if (isMultiPoint) {
-    const np = nearestPointInPointSet(P, featureCollection(
-      latlngs.map(x => turfPoint(x))
-    ));
-    const c = np.geometry.coordinates
+    const np = nearestPointInPointSet(
+      P,
+      featureCollection(latlngs.map((x) => turfPoint(x)))
+    );
+    const c = np.geometry.coordinates;
     return {
       latlng: { lng: c[0], lat: c[1] },
       distance: np.properties.distanceToPoint,
@@ -177,22 +181,19 @@ const calcLayerDistances = (lngLat, layer) => {
 
   let nearestPoint;
   if (isPolygon) {
-
     let lineStrings;
     if (lines.geometry.type === "LineString") {
       lineStrings = [turfLineString(lines.geometry.coordinates)];
     } else {
       lineStrings = lines.geometry.coordinates.map((coords) =>
-        turfLineString(coords),
+        turfLineString(coords)
       );
     }
 
     const closestFeature = getFeatureWithNearestPoint(lineStrings, P);
     lines = closestFeature.feature;
     nearestPoint = closestFeature.point;
-
   } else if (isMultiPolygon) {
-
     const lineStrings = lines.features
       .map((feat) => {
         if (feat.geometry.type === "LineString") {
@@ -207,7 +208,6 @@ const calcLayerDistances = (lngLat, layer) => {
     const closestFeature = getFeatureWithNearestPoint(lineStrings, P);
     lines = closestFeature.feature;
     nearestPoint = closestFeature.point;
-
   } else {
     nearestPoint = nearestPointOnLine(lines, P);
   }
@@ -232,7 +232,7 @@ function getFeatureWithNearestPoint(lineStrings, P) {
   }));
 
   nearestPointsOfEachFeature.sort(
-    (a, b) => a.point.properties.dist - b.point.properties.dist,
+    (a, b) => a.point.properties.dist - b.point.properties.dist
   );
 
   return {
@@ -275,7 +275,11 @@ const metersPerPixel = function (latitude, zoomLevel) {
 };
 
 // we got the point we want to snap to (C), but we need to check if a coord of the polygon
-function snapToLineOrPolygon(closestLayer, snapOptions, snapVertexPriorityDistance) {
+function snapToLineOrPolygon(
+  closestLayer,
+  snapOptions,
+  snapVertexPriorityDistance
+) {
   // A and B are the points of the closest segment to P (the marker position we want to snap)
   const A = closestLayer.segment[0];
   const B = closestLayer.segment[1];
@@ -322,20 +326,27 @@ function snapToLineOrPolygon(closestLayer, snapOptions, snapVertexPriorityDistan
 
   // return the copy of snapping point
   const [lng, lat] = snapLatlng;
-  return {lng, lat};
+  return { lng, lat };
 }
-
 
 function snapToPoint(closestLayer) {
   return closestLayer.latlng;
 }
 
-const checkPrioritiySnapping = (closestLayer, snapOptions, snapVertexPriorityDistance = 1.25) => {
+const checkPrioritiySnapping = (
+  closestLayer,
+  snapOptions,
+  snapVertexPriorityDistance = 1.25
+) => {
   let snappingToPoint = !Array.isArray(closestLayer.segment);
   if (snappingToPoint) {
     return snapToPoint(closestLayer);
   } else {
-    return snapToLineOrPolygon(closestLayer, snapOptions, snapVertexPriorityDistance);
+    return snapToLineOrPolygon(
+      closestLayer,
+      snapOptions,
+      snapVertexPriorityDistance
+    );
   }
 };
 
@@ -376,7 +387,9 @@ export const snap = (state, e) => {
     }
 
     const isMarker = closestLayer.isMarker;
-    const snapVertexPriorityDistance = state.options.snapOptions ? state.options.snapOptions.snapVertexPriorityDistance : undefined;
+    const snapVertexPriorityDistance = state.options.snapOptions
+      ? state.options.snapOptions.snapVertexPriorityDistance
+      : undefined;
 
     if (!isMarker) {
       snapLatLng = checkPrioritiySnapping(

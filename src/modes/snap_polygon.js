@@ -50,7 +50,11 @@ SnapPolygonMode.onSetup = function (options) {
     verticalGuide,
     horizontalGuide,
   };
-  state.options = this._ctx.options;
+
+  /// Adding default options
+  state.options = Object.assign(this._ctx.options, {
+    overlap: true,
+  });
 
   const moveendCallback = () => {
     const [snapList, vertices] = createSnapList(
