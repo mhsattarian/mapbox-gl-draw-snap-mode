@@ -56,6 +56,8 @@ const draw = new MapboxDraw({
   guides: false,
 });
 
+map.addControl(draw, "top-right");
+
 draw.changeMode("draw_polygon");
 ```
 
