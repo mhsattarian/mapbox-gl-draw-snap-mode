@@ -19,7 +19,7 @@ import {
 const SnapLineMode = { ...DrawLine };
 
 SnapLineMode.onSetup = function (options) {
-  const line = this.newFeature({
+    const line = this.newFeature({
     type: geojsonTypes.FEATURE,
     properties: {},
     geometry: {
@@ -29,10 +29,10 @@ SnapLineMode.onSetup = function (options) {
   });
 
   const verticalGuide = this.newFeature(getGuideFeature(IDS.VERTICAL_GUIDE));
-  const horizontalGuide = this.newFeature(
+    const horizontalGuide = this.newFeature(
     getGuideFeature(IDS.HORIZONTAL_GUIDE)
   );
-
+  
   this.addFeature(line);
   this.addFeature(verticalGuide);
   this.addFeature(horizontalGuide);
@@ -53,12 +53,12 @@ SnapLineMode.onSetup = function (options) {
     verticalGuide,
     horizontalGuide,
     direction: "forward", // expected by DrawLineString
-  };
+      };
 
   state.options = this._ctx.options;
 
   const moveendCallback = () => {
-    const [snapList, vertices] = createSnapList(this.map, this._ctx.api, line);
+        const [snapList, vertices] = createSnapList(this.map, this._ctx.api, line);
     state.vertices = vertices;
     state.snapList = snapList;
   };
@@ -108,7 +108,7 @@ SnapLineMode.onClick = function (state) {
 };
 
 SnapLineMode.onMouseMove = function (state, e) {
-  const { lng, lat } = snap(state, e);
+    const { lng, lat } = snap(state, e);
 
   state.line.updateCoordinate(state.currentVertexPosition, lng, lat);
   state.snappedLng = lng;
