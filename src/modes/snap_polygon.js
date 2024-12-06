@@ -10,7 +10,7 @@ import {
   IDS,
   shouldHideGuide,
   snap,
-} from "./../utils";
+} from "./../utils/index.js";
 import booleanIntersects from "@turf/boolean-intersects";
 
 const SnapPolygonMode = { ...DrawPolygon };

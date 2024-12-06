@@ -5,13 +5,14 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
 const path = require("path");
 
 module.exports = [
+  
   {
     mode: "production",
     entry: "./src/index.js",
     devtool: "source-map",
     output: {
       path: path.resolve(__dirname, "dist"),
-      filename: "mapbox-gl-draw-snap-mode.js",
+      filename: "mapbox-gl-draw-snap-mode.cjs.js",
       library: "mapboxGlDrawSnapMode",
       libraryTarget: "umd",
       globalObject: "this",
@@ -59,4 +60,37 @@ module.exports = [
       // }),
     ],
   },
+  {
+    mode: "production",
+    entry: './src/index.js',
+    devtool: "source-map",
+    output: {
+      path: path.resolve(__dirname, 'dist'),
+      filename: 'mapbox-gl-draw-snap-mode.esm.js',
+      library: {
+        type: 'module'
+      }
+    },
+    optimization: {
+      minimize: true,
+      minimizer: [new TerserPlugin({ parallel: true })],
+    },
+    module: {
+      rules: [
+        {
+          test: /\.m?js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: "babel-loader",
+            options: {
+              presets: ["@babel/preset-env"],
+            },
+          },
+        },
+      ],
+    },
+    experiments: {
+      outputModule: true
+    }
+  }
 ];

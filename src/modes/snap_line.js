@@ -14,7 +14,7 @@ import {
   IDS,
   shouldHideGuide,
   snap,
-} from "./../utils";
+} from "./../utils/index.js";
 
 const SnapLineMode = { ...DrawLine };
 

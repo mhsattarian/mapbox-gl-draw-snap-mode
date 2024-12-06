@@ -6,7 +6,7 @@ import {
   IDS,
   shouldHideGuide,
   snap,
-} from "./../utils";
+} from "./../utils/index.js";
 
 const { doubleClickZoom } = MapboxDraw.lib;
 const DrawPoint = MapboxDraw.modes.draw_point;
