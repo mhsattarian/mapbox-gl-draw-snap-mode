@@ -1,11 +1,10 @@
 const webpack = require("webpack");
 const TerserPlugin = require("terser-webpack-plugin");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const path = require("path");
 
 module.exports = [
-  
   {
     mode: "production",
     entry: "./src/index.js",
@@ -62,14 +61,14 @@ module.exports = [
   },
   {
     mode: "production",
-    entry: './src/index.js',
+    entry: "./src/index.js",
     devtool: "source-map",
     output: {
-      path: path.resolve(__dirname, 'dist'),
-      filename: 'mapbox-gl-draw-snap-mode.esm.js',
+      path: path.resolve(__dirname, "dist"),
+      filename: "mapbox-gl-draw-snap-mode.esm.js",
       library: {
-        type: 'module'
-      }
+        type: "module",
+      },
     },
     optimization: {
       minimize: true,
@@ -90,7 +89,7 @@ module.exports = [
       ],
     },
     experiments: {
-      outputModule: true
-    }
-  }
+      outputModule: true,
+    },
+  },
 ];
