@@ -16,7 +16,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@turf/turf": "^6.5.0"
+    "@turf/turf": "^7.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.7",

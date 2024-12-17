@@ -215,11 +215,19 @@ const calcLayerDistances = (lngLat, layer) => {
   const [lng, lat] = nearestPoint.geometry.coordinates;
 
   let segmentIndex = nearestPoint.properties.index;
-  if (segmentIndex + 1 === lines.geometry.coordinates.length) segmentIndex--;
+
+  let { coordinates } = lines.geometry;
+
+  if (lines.geometry.type === "MultiLineString") {
+    coordinates =
+      lines.geometry.coordinates[nearestPoint.properties.multiFeatureIndex];
+  }
+
+  if (segmentIndex + 1 === coordinates.length) segmentIndex--;
 
   return {
     latlng: { lng, lat },
-    segment: lines.geometry.coordinates.slice(segmentIndex, segmentIndex + 2),
+    segment: coordinates.slice(segmentIndex, segmentIndex + 2),
     distance: nearestPoint.properties.dist,
     isMarker,
   };
