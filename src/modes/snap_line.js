@@ -8,7 +8,7 @@ const { doubleClickZoom } = MapboxDraw.lib;
 const DrawLine = MapboxDraw.modes.draw_line_string;
 
 import {
-  addPointTovertices,
+  addPointToVertices,
   createSnapList,
   getGuideFeature,
   IDS,
@@ -98,7 +98,7 @@ SnapLineMode.onClick = function (state) {
 
   // const point = state.map.project({ lng: lng, lat: lat });
 
-  addPointTovertices(state.map, state.vertices, { lng, lat });
+  addPointToVertices(state.map, state.vertices, { lng, lat });
 
   state.line.updateCoordinate(state.currentVertexPosition, lng, lat);
 
@@ -145,7 +145,7 @@ SnapLineMode.onStop = function (state) {
   this.deleteFeature(IDS.VERTICAL_GUIDE, { silent: true });
   this.deleteFeature(IDS.HORIZONTAL_GUIDE, { silent: true });
 
-  // remove moveemd callback
+  // remove moveend callback
   this.map.off("moveend", state.moveendCallback);
 
   // This relies on the the state of SnapLineMode being similar to DrawLine

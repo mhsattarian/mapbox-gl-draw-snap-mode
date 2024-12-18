@@ -4,7 +4,7 @@ const { doubleClickZoom } = MapboxDraw.lib;
 const DrawPolygon = MapboxDraw.modes.draw_polygon;
 
 import {
-  addPointTovertices,
+  addPointToVertices,
   createSnapList,
   getGuideFeature,
   IDS,
@@ -102,7 +102,7 @@ SnapPolygonMode.onClick = function (state) {
 
   // const point = state.map.project();
 
-  addPointTovertices(state.map, state.vertices, { lng, lat });
+  addPointToVertices(state.map, state.vertices, { lng, lat });
 
   state.polygon.updateCoordinate(`0.${state.currentVertexPosition}`, lng, lat);
 
@@ -149,7 +149,7 @@ SnapPolygonMode.onStop = function (state) {
   this.deleteFeature(IDS.VERTICAL_GUIDE, { silent: true });
   this.deleteFeature(IDS.HORIZONTAL_GUIDE, { silent: true });
 
-  // remove moveemd callback
+  // remove moveend callback
   this.map.off("moveend", state.moveendCallback);
   this.map.off("draw.snap.options_changed", state.optionsChangedCallBAck);
 
@@ -158,7 +158,7 @@ SnapPolygonMode.onStop = function (state) {
     DrawPolygon.onStop.call(this, state);
     return;
   }
-  // if overlap is false, mutate polygon so it doesnt overlap with existing ones
+  // if overlap is false, mutate polygon so it doesn't overlap with existing ones
   // get all editable features to check for intersections
   var features = this._ctx.store.getAll();
 
