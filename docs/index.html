@@ -213,7 +213,13 @@
             // snapOptions: {
             //   snapPx: 15,
             //   snapToMidPoints: true,
-            //   snapVertexPriorityDistance: 0.0025
+            //   snapVertexPriorityDistance: 0.0025,
+            //   snapGetFeatures: (map, draw) => [
+            //       ...map.queryRenderedFeatures({
+            //         layers: ["not-editable-layer-name"],
+            //       }),
+            //       ...draw.getAll().features,
+            //     ],
             // },
             guides: false,
           });

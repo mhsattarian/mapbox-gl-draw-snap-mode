@@ -1,6 +1,5 @@
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import {
-  addPointToVertices,
   createSnapList,
   getGuideFeature,
   IDS,
@@ -9,9 +8,8 @@ import {
 } from "./../utils/index.js";
 
 const { doubleClickZoom } = MapboxDraw.lib;
-const DrawPoint = MapboxDraw.modes.draw_point;
 const { geojsonTypes, cursors } = MapboxDraw.constants;
-
+const DrawPoint = MapboxDraw.modes.draw_point;
 const SnapPointMode = { ...DrawPoint };
 
 SnapPointMode.onSetup = function (options) {
@@ -37,7 +35,12 @@ SnapPointMode.onSetup = function (options) {
   this.clearSelectedFeatures();
   doubleClickZoom.disable(this);
 
-  const [snapList, vertices] = createSnapList(this.map, this._ctx.api, point);
+  const [snapList, vertices] = createSnapList(
+    this.map,
+    this._ctx.api,
+    point,
+    this._ctx.options.snapOptions?.snapGetFeatures
+  );
 
   const state = {
     map: this.map,
@@ -52,21 +55,26 @@ SnapPointMode.onSetup = function (options) {
   state.options = this._ctx.options;
 
   const moveendCallback = () => {
-    const [snapList, vertices] = createSnapList(this.map, this._ctx.api, point);
+    const [snapList, vertices] = createSnapList(
+      this.map,
+      this._ctx.api,
+      point,
+      this._ctx.options.snapOptions?.snapGetFeatures
+    );
     state.vertices = vertices;
     state.snapList = snapList;
   };
   // for removing listener later on close
   state["moveendCallback"] = moveendCallback;
 
-  const optionsChangedCallBAck = (options) => {
+  const optionsChangedCallback = (options) => {
     state.options = options;
   };
   // for removing listener later on close
-  state["optionsChangedCallBAck"] = optionsChangedCallBAck;
+  state["optionsChangedCallback"] = optionsChangedCallback;
 
   this.map.on("moveend", moveendCallback);
-  this.map.on("draw.snap.options_changed", optionsChangedCallBAck);
+  this.map.on("draw.snap.options_changed", optionsChangedCallback);
 
   return state;
 };

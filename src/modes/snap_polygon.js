@@ -1,8 +1,4 @@
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
-const { geojsonTypes, modes, cursors } = MapboxDraw.constants;
-const { doubleClickZoom } = MapboxDraw.lib;
-const DrawPolygon = MapboxDraw.modes.draw_polygon;
-
 import {
   addPointToVertices,
   createSnapList,
@@ -13,6 +9,9 @@ import {
 } from "./../utils/index.js";
 import booleanIntersects from "@turf/boolean-intersects";
 
+const { doubleClickZoom } = MapboxDraw.lib;
+const { geojsonTypes, modes, cursors } = MapboxDraw.constants;
+const DrawPolygon = MapboxDraw.modes.draw_polygon;
 const SnapPolygonMode = { ...DrawPolygon };
 
 SnapPolygonMode.onSetup = function (options) {
@@ -38,7 +37,12 @@ SnapPolygonMode.onSetup = function (options) {
   this.clearSelectedFeatures();
   doubleClickZoom.disable(this);
 
-  const [snapList, vertices] = createSnapList(this.map, this._ctx.api, polygon);
+  const [snapList, vertices] = createSnapList(
+    this.map,
+    this._ctx.api,
+    polygon,
+    this._ctx.options.snapOptions?.snapGetFeatures
+  );
 
   const state = {
     map: this.map,
@@ -60,7 +64,8 @@ SnapPolygonMode.onSetup = function (options) {
     const [snapList, vertices] = createSnapList(
       this.map,
       this._ctx.api,
-      polygon
+      polygon,
+      this._ctx.options.snapOptions?.snapGetFeatures
     );
     state.vertices = vertices;
     state.snapList = snapList;
@@ -68,15 +73,15 @@ SnapPolygonMode.onSetup = function (options) {
   // for removing listener later on close
   state["moveendCallback"] = moveendCallback;
 
-  const optionsChangedCallBAck = (options) => {
+  const optionsChangedCallback = (options) => {
     state.options = options;
   };
 
   // for removing listener later on close
-  state["optionsChangedCallBAck"] = optionsChangedCallBAck;
+  state["optionsChangedCallback"] = optionsChangedCallback;
 
   this.map.on("moveend", moveendCallback);
-  this.map.on("draw.snap.options_changed", optionsChangedCallBAck);
+  this.map.on("draw.snap.options_changed", optionsChangedCallback);
 
   return state;
 };
@@ -151,7 +156,7 @@ SnapPolygonMode.onStop = function (state) {
 
   // remove moveend callback
   this.map.off("moveend", state.moveendCallback);
-  this.map.off("draw.snap.options_changed", state.optionsChangedCallBAck);
+  this.map.off("draw.snap.options_changed", state.optionsChangedCallback);
 
   var userPolygon = state.polygon;
   if (state.options.overlap) {
