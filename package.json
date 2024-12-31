@@ -1,6 +1,6 @@
 {
   "name": "mapbox-gl-draw-snap-mode",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Snapping mode for mapbox-gl-draw",
   "main": "dist/mapbox-gl-draw-snap-mode.cjs.js",
   "module": "dist/mapbox-gl-draw-snap-mode.esm.js",
