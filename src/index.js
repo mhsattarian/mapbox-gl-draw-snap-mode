@@ -4,4 +4,4 @@ export { default as SnapPolygonMode } from "./modes/snap_polygon.js";
 export { default as SnapDirectSelect } from "./modes/snap_direct_select.js";
 
 export { default as SnapModeDrawStyles } from "./utils/customDrawStyles.js";
-export * as Utils from "./utils/index.js"
+export * as Utils from "./utils/index.js";

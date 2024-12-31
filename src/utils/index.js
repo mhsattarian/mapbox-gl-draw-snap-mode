@@ -40,9 +40,18 @@ export const addPointToVertices = (
   }
 };
 
-export const createSnapList = (map, draw, currentFeature) => {
-  // Get all drawn features
-  const features = draw.getAll().features;
+export const createSnapList = (map, draw, currentFeature, getFeatures) => {
+  // Get all features
+  let features = [];
+
+  if (typeof getFeatures === "function") {
+    features = getFeatures(map, draw);
+  }
+
+  if (!Array.isArray(features) || features.length === 0) {
+    features = draw.getAll().features;
+  }
+
   const snapList = [];
 
   // Get current bbox as polygon
@@ -321,7 +330,7 @@ function snapToLineOrPolygon(
   // the distance that needs to be undercut to trigger priority
   const priorityDistance = snapVertexPriorityDistance;
 
-  // the latlng we ultemately want to snap to
+  // the latlng we ultimately want to snap to
   let snapLatlng;
 
   // if C is closer to the closestVertexLatLng (A, B or M) than the snapDistance,

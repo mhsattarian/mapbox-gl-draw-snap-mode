@@ -52,6 +52,10 @@ const draw = new MapboxDraw({
     snapPx: 15, // defaults to 15
     snapToMidPoints: true, // defaults to false
     snapVertexPriorityDistance: 0.0025, // defaults to 1.25
+    snapGetFeatures: (map, draw) => [
+      ...map.queryRenderedFeatures({ layers: ["not-editable-layer-name"] }),
+      ...draw.getAll().features,
+    ], // defaults to all features from the draw layer (draw.getAll().features)
   },
   guides: false,
 });
@@ -65,7 +69,7 @@ draw.changeMode("draw_polygon");
 
 #### `snapPx`
 
-The min distnace (in pixels) where snapping to the line/segments would take effect.
+The min distance (in pixels) where snapping to the line/segments would take effect.
 
 #### `snapToMidPoints`
 
@@ -81,7 +85,7 @@ Defaults to `true`. When creating polygons, if `false`, will use `turf.differenc
 
 ### Changing settings
 
-Changing settings would take effect while snapping imidiately, so you can control snapping behaivior using `draw.options.snap`, like so:
+Changing settings would take effect while snapping immediately, so you can control snapping behavior using `draw.options.snap`, like so:
 
 ```js
 // turn snapping off
