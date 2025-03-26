@@ -4,10 +4,12 @@
   "description": "Snapping mode for mapbox-gl-draw",
   "main": "dist/mapbox-gl-draw-snap-mode.cjs.js",
   "module": "dist/mapbox-gl-draw-snap-mode.esm.js",
+  "types": "src/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/mapbox-gl-draw-snap-mode.esm.js",
-      "require": "./dist/mapbox-gl-draw-snap-mode.cjs.js"
+      "require": "./dist/mapbox-gl-draw-snap-mode.cjs.js",
+      "types": "./src/index.d.ts"
     }
   },
   "scripts": {
