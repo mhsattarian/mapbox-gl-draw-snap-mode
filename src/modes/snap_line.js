@@ -14,14 +14,52 @@ const DrawLine = MapboxDraw.modes.draw_line_string;
 const SnapLineMode = { ...DrawLine };
 
 SnapLineMode.onSetup = function (options) {
-  const line = this.newFeature({
-    type: geojsonTypes.FEATURE,
-    properties: {},
-    geometry: {
-      type: geojsonTypes.LINE_STRING,
-      coordinates: [[]],
-    },
-  });
+  options = options || {};
+  const featureId = options.featureId;
+  var currentVertexPosition = 0;
+  var direction = 'forwards'
+
+  let line;
+  if (featureId) {
+    line = this.getFeature(featureId);
+    if (!line) {
+      throw new Error('Could not find a feature with the provided featureId');
+    }
+    let from = options.from;
+    if (from && from.type === 'Feature' && from.geometry && from.geometry.type === 'Point') {
+      from = from.geometry;
+    }
+    if (from && from.type === 'Point' && from.coordinates && from.coordinates.length === 2) {
+      from = from.coordinates;
+    }
+    if (!from || !Array.isArray(from)) {
+      throw new Error('Please use the `from` property to indicate which point to continue the line from');
+    }
+
+    const lastCoord = line.coordinates.length - 1;
+    if (line.coordinates[lastCoord][0] === from[0] && line.coordinates[lastCoord][1] === from[1]) {
+      currentVertexPosition = lastCoord + 1;
+      // add one new coordinate to continue from
+      line.addCoordinate(currentVertexPosition, ...line.coordinates[lastCoord]);
+    } else if (line.coordinates[0][0] === from[0] && line.coordinates[0][1] === from[1]) {
+      direction = 'backwards';
+      currentVertexPosition = 0;
+      // add one new coordinate to continue from
+      line.addCoordinate(currentVertexPosition, ...line.coordinates[0]);
+    } else {
+      throw new Error('`from` should match the point at either the start or the end of the provided LineString');
+    }
+
+  } else {
+    line = this.newFeature({
+      type: MapboxDraw.constants.geojsonTypes.FEATURE,
+      properties: {},
+      geometry: {
+        type: MapboxDraw.constants.geojsonTypes.LINE_STRING,
+        coordinates: []
+      }
+    });
+  }
 
   const verticalGuide = this.newFeature(getGuideFeature(IDS.VERTICAL_GUIDE));
   const horizontalGuide = this.newFeature(
@@ -46,13 +84,13 @@ SnapLineMode.onSetup = function (options) {
   const state = {
     map: this.map,
     line,
-    currentVertexPosition: 0,
+    currentVertexPosition: currentVertexPosition,
     vertices,
     snapList,
     selectedFeatures,
     verticalGuide,
     horizontalGuide,
-    direction: "forward", // expected by DrawLineString
+    direction: direction
   };
 
   state.options = this._ctx.options;
